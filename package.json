@@ -1,9 +1,16 @@
 {
+  "name": "shaders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node scripts/dev.mjs"
+  },
+  "author": "Harley Lara",
   "dependencies": {
-    "glob": "^11.0.1",
-    "three": "^0.174.0"
+    "three": "^0.182.0"
   },
   "devDependencies": {
-    "vite": "^6.2.2"
+    "vite": "^7.3.0"
   }
 }
