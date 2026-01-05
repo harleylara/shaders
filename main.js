@@ -67,18 +67,32 @@ const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
 quad.frustumCulled = false;
 scene.add(quad);
 
+function getVisibleViewportSize() {
+  const vv = window.visualViewport;
+
+  // visualViewport is the *visible* area (changes with browser UI, zoom, etc.)
+  const w = vv ? vv.width : document.documentElement.clientWidth;
+
+  const h = vv ? vv.height : document.documentElement.clientHeight;
+
+  return { w: Math.round(w), h: Math.round(h) };
+}
+
 function resize() {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+  const { w, h } = getVisibleViewportSize();
   renderer.setSize(w, h, false);
   uniforms.uResolution.value.set(w, h);
 }
+
 window.addEventListener("resize", resize);
+window.visualViewport?.addEventListener("resize", resize);
+window.visualViewport?.addEventListener("scroll", resize); // helps with mobile UI changes
 resize();
 
 
 window.addEventListener("pointermove", (e) => {
-  uniforms.uMouse.value.set(e.clientX, window.innerHeight - e.clientY);
+  const h = window.visualViewport?.height ?? document.documentElement.clientHeight;
+  uniforms.uMouse.value.set(e.clientX, h - e.clientY);
 });
 
 // Optional: left/right cycle through examples (updates URL, full reload)
